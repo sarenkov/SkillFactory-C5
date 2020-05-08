@@ -1,5 +1,6 @@
 import os
 import random
+from sayings import subjects
 
 from bottle import route, run
 
@@ -28,6 +29,17 @@ def index():
         generate_message()
     )
     return html
+
+@route("/api/generate/")
+def generate():
+  return {"message": random.choice(subjects)}
+
+@route("/api/generate/<num:int>")
+def generate_with_num(num):
+  _request = {"messages" : []}
+  for _ in range(num):
+    _request["messages"].append(random.choice(subjects))
+  return _request
 
 
 @route("/api/roll/<some_id:int>")
